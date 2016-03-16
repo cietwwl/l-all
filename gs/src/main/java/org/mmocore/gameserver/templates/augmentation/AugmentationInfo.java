@@ -1,0 +1,74 @@
+package org.mmocore.gameserver.templates.augmentation;
+
+import org.mmocore.commons.math.random.RndSelector;
+import org.mmocore.gameserver.model.reward.RewardList;
+import org.mmocore.gameserver.templates.item.ItemTemplate;
+
+/**
+ * @author VISTALL
+ * @date 15:14/14.03.2012
+ */
+public class AugmentationInfo
+{
+	public static final int MAX_AUGMENTATION_COUNT = 2;
+
+	private final int _mineralId;
+	private final int _feeItemId;
+	private final long _feeItemCount;
+	private final long _cancelFee;
+
+	private RndSelector<OptionGroup>[][] _optionGroups;
+
+	public AugmentationInfo(int mineralId, int feeItemId, long feeItemCount, long cancelFee, RndSelector<OptionGroup>[][] rndSelectors)
+	{
+		_mineralId = mineralId;
+		_feeItemId = feeItemId;
+		_feeItemCount = feeItemCount;
+		_cancelFee = cancelFee;
+		_optionGroups = rndSelectors;
+	}
+
+	public int getMineralId()
+	{
+		return _mineralId;
+	}
+
+	public int getFeeItemId()
+	{
+		return _feeItemId;
+	}
+
+	public long getFeeItemCount()
+	{
+		return _feeItemCount;
+	}
+
+	public long getCancelFee()
+	{
+		return _cancelFee;
+	}
+
+	public int[] randomOption(ItemTemplate itemTemplate)
+	{
+		RndSelector<OptionGroup>[] rnd = _optionGroups[itemTemplate.isMagicWeapon() ? 1 : 0];
+		if(rnd == null)
+			return null;
+
+		int[] data = new int[rnd.length];
+		for(int i = 0; i < data.length; i++)
+		{
+			RndSelector<OptionGroup> groupSelector = rnd[i];
+			if(groupSelector == null)
+				continue;
+
+			OptionGroup randomGroup = groupSelector.chance(RewardList.MAX_CHANCE);
+			if(randomGroup == null)
+				continue;
+
+			Integer random = randomGroup.random();
+			data[i] = random == null ? 0 : random;
+		}
+
+		return data;
+	}
+}

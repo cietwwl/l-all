@@ -1,0 +1,130 @@
+package org.mmocore.gameserver.data;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.LineNumberReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import org.mmocore.commons.data.xml.AbstractHolder;
+import org.mmocore.gameserver.Config;
+import org.mmocore.gameserver.model.Player;
+import org.mmocore.gameserver.utils.Language;
+
+/**
+ * Author: VISTALL
+ * Date:  19:27/29.12.2010
+ */
+public final class StringHolder extends AbstractHolder
+{
+	private static final StringHolder _instance = new StringHolder();
+	private Map<Language, Map<String, String>> _strings = new HashMap<Language, Map<String, String>>();
+
+	public static StringHolder getInstance()
+	{
+		return _instance;
+	}
+
+	private StringHolder()
+	{
+
+	}
+
+	public String getString(String name, Player player)
+	{       
+		Language lang = player == null ? Language.RUSSIAN : player.getLanguage();
+		return getString(name, lang);
+	}
+	
+	public String getString(Player player, String name)
+	{          
+		Language lang = player == null ? Language.RUSSIAN : player.getLanguage();
+		return getString(name, lang);
+	}
+
+	public String getString(String address, Language lang)
+	{
+		Map<String, String> strings = _strings.get(lang);
+		return strings.get(address);
+	}
+
+	public void load()
+	{
+		for(Language lang : Language.VALUES)
+		{
+			_strings.put(lang, new HashMap<String, String>());
+
+			File f = new File(Config.DATAPACK_ROOT, "data/string/strings_" + lang.getShortName() + ".properties");
+			if(!f.exists())
+			{
+				warn("Not find file: " + f.getAbsolutePath());
+				continue;
+			}
+
+			LineNumberReader reader = null;
+			try
+			{
+				reader = new LineNumberReader(new FileReader(f));
+				String line = null;
+
+				while((line = reader.readLine()) != null)
+				{
+					if(line.startsWith("#"))
+						continue;
+
+					StringTokenizer token = new StringTokenizer(line, "=");
+					if(token.countTokens() < 2)
+					{
+						error("Error on line: " + line + "; file: " + f.getName());
+						continue;
+					}
+
+					String name = token.nextToken();
+					String value = token.nextToken();
+					while(token.hasMoreTokens())
+						value += "=" + token.nextToken();
+
+					Map<String, String> strings = _strings.get(lang);
+
+					strings.put(name, value);
+				}
+			}
+			catch(Exception e)
+			{
+				error("Exception: " + e, e);
+			}
+			finally
+			{
+				try{reader.close();}catch(Exception e){}
+			}
+		}
+
+		log();
+	}
+
+	public void reload()
+	{
+		clear();
+		load();
+	}
+
+	@Override
+	public void log()
+	{
+		for(Map.Entry<Language, Map<String, String>> entry : _strings.entrySet())
+			info("load strings: " + entry.getValue().size() + " for lang: " + entry.getKey());
+	}
+
+	@Override
+	public int size()
+	{
+		return 0;
+	}
+
+	@Override
+	public void clear()
+	{
+		_strings.clear();
+	}
+}

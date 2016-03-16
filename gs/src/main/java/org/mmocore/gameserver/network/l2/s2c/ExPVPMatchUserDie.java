@@ -1,0 +1,35 @@
+package org.mmocore.gameserver.network.l2.s2c;
+
+import org.mmocore.gameserver.model.base.TeamType;
+import org.mmocore.gameserver.model.entity.events.impl.UndergroundColiseumBattleEvent;
+import org.mmocore.gameserver.model.entity.events.objects.UCTeamObject;
+
+/**
+ * @author VISTALL
+ */
+public class ExPVPMatchUserDie extends L2GameServerPacket
+{
+	private int _blueKills, _redKills;
+
+	public ExPVPMatchUserDie(UndergroundColiseumBattleEvent e)
+	{
+		UCTeamObject team = e.getFirstObject(TeamType.BLUE);
+		_blueKills = team.getKills();
+		team = e.getFirstObject(TeamType.RED);
+		_redKills = team.getKills();
+	}
+
+	public ExPVPMatchUserDie(int blueKills, int redKills)
+	{
+		_blueKills = blueKills;
+		_redKills = redKills;
+	}
+
+	@Override
+	protected final void writeImpl()
+	{
+		writeEx(0x7F);
+		writeD(_blueKills);
+		writeD(_redKills);
+	}
+}
