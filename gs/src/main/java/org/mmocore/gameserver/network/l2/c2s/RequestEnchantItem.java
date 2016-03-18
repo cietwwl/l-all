@@ -360,10 +360,12 @@ public class RequestEnchantItem extends L2GameClientPacket
 			chance = item.getEnchantLevel() < 3 ? 100 : Config.ENCHANT_CHANCE_CRYSTAL_ARMOR;
 
 		// TODO: DS: убрать хардкод
-		if (item.getEnchantLevel() >= 14 && item.isWeapon())
-			chance /= 2;
-                else if(item.getEnchantLevel() >= 9 && !item.isWeapon())
-			chance /= 2;
+		if (item.getEnchantLevel() >= 15 && item.getEnchantLevel() <= 17 && item.isWeapon())                     
+                    chance /= 2;
+                else if(item.getEnchantLevel() >= 18 && item.isWeapon())
+                        chance /= 3;
+                else if(item.getEnchantLevel() >= 10 && !item.isWeapon())
+                        chance /= 2;
 
 		if (Config.ALT_DEBUG_ENCHANT_CHANCE_ENABLED && player.isDebug())
 			player.sendMessage("Enchant chance : " + chance);
