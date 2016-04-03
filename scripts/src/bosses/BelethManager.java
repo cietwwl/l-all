@@ -44,8 +44,8 @@ public class BelethManager implements OnInitScriptListener
 	private static final int _clonesRespawnTimeTimeDuration = 40000; // 40sec
 	private static final int _ringAvailableTime = 300000; // 5min
 	private static final int _clearEntityTime = 600000; // 10min
-	private static final long _belethRespawnTime = 8 * 24 * 60 * 60 * 1000; // 8 days
-	private static final long _entityInactivityTime = 2 * 60 * 60 * 1000; // 2 hours
+	private static final long _belethRespawnTime = 3 * 24 * 60 * 60 * 1000; // 8 days
+	private static final long _entityInactivityTime = 1 * 60 * 60 * 1000; // 2 hours
 	private static final int _ringSpawnTime = 300000; // 5min
 	private static final int _lastSpawnTime = 600000; // 10min
 

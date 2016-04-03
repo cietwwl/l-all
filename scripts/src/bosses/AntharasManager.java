@@ -53,7 +53,7 @@ public class AntharasManager implements OnInitScriptListener
 	// Vars
 	private static EpicBossState _state = null;
 	private static Zone _zone = null;
-	private static final int FWA_FIXINTERVALOFANTHARAS = 11 * 24 * 60 * 60000; // 11 days
+	private static final int FWA_FIXINTERVALOFANTHARAS = 5 * 24 * 60 * 60000; // 11 days
 	private static final int FWA_APPTIMEOFANTHARAS = 30 * 60000; // 30 mins
 
 	private static class AntharasSpawn extends RunnableImpl

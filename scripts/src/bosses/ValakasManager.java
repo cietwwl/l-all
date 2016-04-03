@@ -50,7 +50,7 @@ public class ValakasManager implements OnInitScriptListener
 	private static Zone _zone = null;
 
 	private static final int FWV_APPTIMEOFVALAKAS = 30 * 60000;	 // 30 mins
-	private static final int FWV_FIXINTERVALOFVALAKAS = 11 * 24 * 60 * 60000;
+	private static final int FWV_FIXINTERVALOFVALAKAS = 6 * 24 * 60 * 60000;
 
 
 	private static class IntervalEnd extends RunnableImpl

@@ -236,8 +236,8 @@ public class BaiumManager implements OnInitScriptListener
 	private final static int TELEPORT_CUBE = 31759;
 
 	private final static int FWB_LIMITUNTILSLEEP = 30 * 60000;
-	private final static int FWB_FIXINTERVALOFBAIUM = 5 * 24 * 60 * 60000;
-	private final static int FWB_RANDOMINTERVALOFBAIUM = 8 * 60 * 60000;
+	private final static int FWB_FIXINTERVALOFBAIUM = 4 * 24 * 60 * 60000;
+	private final static int FWB_RANDOMINTERVALOFBAIUM = 1 * 60 * 60000;
 
 	private static void banishForeigners()
 	{
